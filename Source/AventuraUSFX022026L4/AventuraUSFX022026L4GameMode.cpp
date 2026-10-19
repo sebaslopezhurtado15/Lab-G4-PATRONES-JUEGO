@@ -3,9 +3,9 @@
 #include "AventuraUSFX022026L4Pawn.h"
 #include "Engine/World.h"
 
-// Builder
-#include "ConstructorEscenario.h"
-#include "ConstructorEscenarioBasico.h"
+//Facade
+#include "ControladorJuegoFacade.h"
+
 
 AAventuraUSFX022026L4GameMode::AAventuraUSFX022026L4GameMode()
 {
@@ -19,10 +19,13 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
     UWorld* Mundo = GetWorld();
     if (!Mundo) return;
 
-    // BUILDER - Construye el escenario por etapas
-    AConstructorEscenario* Constructor = Mundo->SpawnActor<AConstructorEscenarioBasico>();
-    if (!Constructor) return;
 
-    Constructor->ConstruirEnemigos();
-    Constructor->ConstruirPlataformas();
+    // FACADE - Inicia el juego utilizando el Builder
+    AControladorJuegoFacade* Fachada = Mundo->SpawnActor<AControladorJuegoFacade>();
+
+    if (Fachada != nullptr)
+    {
+        Fachada->IniciarJuego();
+    }
+
 }
