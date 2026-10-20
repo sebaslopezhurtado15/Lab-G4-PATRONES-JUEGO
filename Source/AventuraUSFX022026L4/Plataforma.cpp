@@ -33,9 +33,13 @@ APlataforma::APlataforma()
 
 void APlataforma::RecibirDanio(float Danio)
 {
-    if (!bDestructible || Danio <= 0.0f) return;
+    if (bDestructible == true && Danio > 0.0f)
+    {
+        Vida -= Danio;
 
-    Vida -= Danio;
-
-    if (Vida <= 0.0f) Destroy();
+        if (Vida <= 0.0f)
+        {
+            Destroy();
+        }
+    }
 }

@@ -10,24 +10,40 @@
 
 AEnemigoTerrestre* AFabricaEnemigosAnimales::CrearTerrestre(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoTerrestreAnimal>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoTerrestreAnimal>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoAereo* AFabricaEnemigosAnimales::CrearAereo(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoAereoAnimal>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoAereoAnimal>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoAcuatico* AFabricaEnemigosAnimales::CrearAcuatico(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoAcuaticoAnimal>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoAcuaticoAnimal>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoSubterraneo* AFabricaEnemigosAnimales::CrearSubterraneo(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoSubterraneoAnimal>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoSubterraneoAnimal>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }

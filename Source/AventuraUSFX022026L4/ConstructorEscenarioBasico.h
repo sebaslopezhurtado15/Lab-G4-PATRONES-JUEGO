@@ -11,6 +11,10 @@ class AVENTURAUSFX022026L4_API AConstructorEscenarioBasico : public AConstructor
     GENERATED_BODY()
 
 public:
+
+    // Construye los cuatro enemigos animales
     virtual void ConstruirEnemigos() override;
+
+    // Construye las plataformas del escenario basico
     virtual void ConstruirPlataformas() override;
 };

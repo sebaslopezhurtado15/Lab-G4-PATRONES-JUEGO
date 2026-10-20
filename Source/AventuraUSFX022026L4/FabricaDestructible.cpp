@@ -5,6 +5,10 @@
 
 APlataforma* AFabricaDestructible::CrearPlataforma(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<APlataformaDestructible>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<APlataformaDestructible>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }

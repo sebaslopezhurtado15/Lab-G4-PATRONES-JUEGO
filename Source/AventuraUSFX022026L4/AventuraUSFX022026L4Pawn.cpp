@@ -114,20 +114,15 @@ void AAventuraUSFX022026L4Pawn::FireShot(FVector FireDirection)
 			UWorld* const World = GetWorld();
 			if (World != nullptr)
 			{
-				// spawn the projectile
 				World->SpawnActor<AAventuraUSFX022026L4Projectile>(SpawnLocation, FireRotation);
+				bCanFire = false;
+				World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AAventuraUSFX022026L4Pawn::ShotTimerExpired, FireRate);
+
+				if (FireSound != nullptr)
+				{
+					UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+				}
 			}
-
-			bCanFire = false;
-			World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AAventuraUSFX022026L4Pawn::ShotTimerExpired, FireRate);
-
-			// try and play the sound if specified
-			if (FireSound != nullptr)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-			}
-
-			bCanFire = false;
 		}
 	}
 }

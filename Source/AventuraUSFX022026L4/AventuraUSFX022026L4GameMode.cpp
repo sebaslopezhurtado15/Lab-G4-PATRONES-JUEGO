@@ -17,15 +17,16 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
     Super::BeginPlay();
 
     UWorld* Mundo = GetWorld();
-    if (!Mundo) return;
 
-
-    // FACADE - Inicia el juego utilizando el Builder
-    AControladorJuegoFacade* Fachada = Mundo->SpawnActor<AControladorJuegoFacade>();
-
-    if (Fachada != nullptr)
+    if (Mundo != nullptr)
     {
-        Fachada->IniciarJuego();
+        // Facade inicia el escenario mediante Builder.
+        AControladorJuegoFacade* Fachada = Mundo->SpawnActor<AControladorJuegoFacade>();
+
+        if (Fachada != nullptr)
+        {
+            Fachada->IniciarJuego();
+        }
     }
 
 }

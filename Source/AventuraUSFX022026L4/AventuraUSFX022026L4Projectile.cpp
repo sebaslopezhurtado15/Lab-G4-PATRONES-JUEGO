@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "PlataformaDestructible.h"
 #include "Engine/StaticMesh.h"
+#include "Enemigo.h"
 
 AAventuraUSFX022026L4Projectile::AAventuraUSFX022026L4Projectile() 
 {
@@ -45,6 +46,14 @@ void AAventuraUSFX022026L4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor
 	if (Plataforma != nullptr)
 	{
 		Plataforma->RecibirDanio(50.0f);
+	}
+
+	// Comprobar si la bala impacto contra un enemigo
+	AEnemigo* Enemigo = Cast<AEnemigo>(OtherActor);
+
+	if (Enemigo != nullptr)
+	{
+		Enemigo->RecibirDanio(50.0f);
 	}
 
 

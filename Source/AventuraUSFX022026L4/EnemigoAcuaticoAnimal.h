@@ -1,15 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "EnemigoAcuatico.h"
 #include "EnemigoAcuaticoAnimal.generated.h"
 
+class UStaticMeshComponent;
 
 UCLASS()
 class AVENTURAUSFX022026L4_API AEnemigoAcuaticoAnimal : public AEnemigoAcuatico
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+    AEnemigoAcuaticoAnimal();
+
+protected:
+    // Malla visual del enemigo acuatico animal.
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemigo")
+    UStaticMeshComponent* MallaPez;
 };

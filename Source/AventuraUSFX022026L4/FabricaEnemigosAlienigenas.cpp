@@ -10,24 +10,40 @@
 // Crea los 4 enemigos de la familia Alienigena
 AEnemigoTerrestre* AFabricaEnemigosAlienigenas::CrearTerrestre(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoTerrestreAlienigena>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoTerrestreAlienigena>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoAereo* AFabricaEnemigosAlienigenas::CrearAereo(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoAereoAlienigena>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoAereoAlienigena>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoAcuatico* AFabricaEnemigosAlienigenas::CrearAcuatico(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoAcuaticoAlienigena>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoAcuaticoAlienigena>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }
 
 AEnemigoSubterraneo* AFabricaEnemigosAlienigenas::CrearSubterraneo(FVector Posicion)
 {
-    if (!GetWorld()) return nullptr;
-    return GetWorld()->SpawnActor<AEnemigoSubterraneoAlienigena>(Posicion, FRotator::ZeroRotator);
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        return Mundo->SpawnActor<AEnemigoSubterraneoAlienigena>(Posicion, FRotator::ZeroRotator);
+    }
+    return nullptr;
 }

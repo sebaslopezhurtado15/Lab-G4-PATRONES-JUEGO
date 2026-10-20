@@ -2,70 +2,129 @@
 #include "ConstructorEscenarioBasico.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
-#include "Enemigo.h"
+#include "EnemigoAereo.h"
+#include "EnemigoTerrestre.h"
+#include "EnemigoSubterraneo.h"
+#include "EnemigoAcuatico.h"
 #include "Plataforma.h"
-#include "FabricaEnemigos.h"
 #include "FabricaEnemigosAnimales.h"
-#include "FabricaEnemigosAlienigenas.h"
 #include "FabricaPlataforma.h"
 #include "FabricaDestructible.h"
 #include "FabricaIndestructible.h"
 #include "Engine/World.h"
 
+// BUILDER BASICO - Construir los cuatro enemigos animales
 void AConstructorEscenarioBasico::ConstruirEnemigos()
 {
     UWorld* Mundo = GetWorld();
-    if (!Mundo) return;
 
-    int TipoFamilia = FMath::RandRange(0, 1);
-    AFabricaEnemigos* Fabrica = nullptr;
-    if (TipoFamilia == 0)
+    if (Mundo != nullptr)
     {
-        Fabrica = Mundo->SpawnActor<AFabricaEnemigosAnimales>();
-    }
-    else
-    {
-        Fabrica = Mundo->SpawnActor<AFabricaEnemigosAlienigenas>();
-    }
-    if (!Fabrica) return;
+        AFabricaEnemigosAnimales* Fabrica = Mundo->SpawnActor<AFabricaEnemigosAnimales>();
+        APawn* Nave = UGameplayStatics::GetPlayerPawn(this, 0);
 
-    // Construccion de los cuatro tipos de enemigos
-    Fabrica->CrearAereo(FVector(200.0f, -850.0f, 200.0f));
-    Fabrica->CrearTerrestre(FVector(650.0f, -850.0f, 160.0f));
-    Fabrica->CrearSubterraneo(FVector(200.0f, 850.0f, 160.0f));
-    Fabrica->CrearAcuatico(FVector(650.0f, 850.0f, 160.0f));
+        if (Fabrica != nullptr && Nave != nullptr)
+        {
+            FVector Base = Nave->GetActorLocation();
+
+            // Formacion de dos filas y dos columnas
+            FVector Posiciones[4] = {
+                Base + FVector(250.0f, 900.0f, 0.0f),   // Aereo - adelante derecha
+                Base + FVector(250.0f, -1000.0f, 0.0f), // Terrestre - adelante izquierda
+                Base + FVector(100.0f, -600.0f, 0.0f),  // Subterraneo - atras hacia el centro
+                Base + FVector(100.0f, 600.0f, 0.0f)    // Acuatico - atras hacia el centro
+            };
+
+
+            // Crear enemigos mediante Abstract Factory
+            AEnemigoAereo* Aereo = Fabrica->CrearAereo(Posiciones[0]);
+            AEnemigoTerrestre* Terrestre = Fabrica->CrearTerrestre(Posiciones[1]);
+            AEnemigoSubterraneo* Subterraneo = Fabrica->CrearSubterraneo(Posiciones[2]);
+            AEnemigoAcuatico* Acuatico = Fabrica->CrearAcuatico(Posiciones[3]);
+
+            // Orientar los enemigos hacia la nave y guardar sus referencias
+            if (Aereo != nullptr)
+            {
+                FVector Direccion = Base - Posiciones[0];
+                Direccion.Z = 0.0f;
+                Aereo->SetActorRotation(Direccion.Rotation());
+                ElementosConstruidos.Add(Aereo);
+            }
+
+            if (Terrestre != nullptr)
+            {
+                FVector Direccion = Base - Posiciones[1];
+                Direccion.Z = 0.0f;
+                Terrestre->SetActorRotation(Direccion.Rotation());
+                ElementosConstruidos.Add(Terrestre);
+            }
+
+            if (Subterraneo != nullptr)
+            {
+                FVector Direccion = Base - Posiciones[2];
+                Direccion.Z = 0.0f;
+                Subterraneo->SetActorRotation(Direccion.Rotation());
+                ElementosConstruidos.Add(Subterraneo);
+            }
+
+            if (Acuatico != nullptr)
+            {
+                FVector Direccion = Base - Posiciones[3];
+                Direccion.Z = 0.0f;
+                Acuatico->SetActorRotation(Direccion.Rotation());
+                ElementosConstruidos.Add(Acuatico);
+            }
+        }
+    }
 }
 
-
+// BUILDER BASICO - Construir las ocho plataformas
 void AConstructorEscenarioBasico::ConstruirPlataformas()
 {
     UWorld* Mundo = GetWorld();
-    if (!Mundo) return;
 
-    AFabricaPlataforma* FabricaD = Mundo->SpawnActor<AFabricaDestructible>();
-    AFabricaPlataforma* FabricaI = Mundo->SpawnActor<AFabricaIndestructible>();
-
-    if (!FabricaD || !FabricaI) return;
-
-    // Obtener la posicion real de la nave
-    APawn* Nave = UGameplayStatics::GetPlayerPawn(this, 0);
-
-    if (!Nave)
+    if (Mundo != nullptr)
     {
-        UE_LOG(LogTemp, Error, TEXT("No se encontro la nave"));
-        return;
-    }
+        AFabricaPlataforma* FabricaD = Mundo->SpawnActor<AFabricaDestructible>();
+        AFabricaPlataforma* FabricaI = Mundo->SpawnActor<AFabricaIndestructible>();
 
-    // Crear ocho plataformas cerca de la nave
-    for (int i = 0; i < 8; i++)
-    {
-        // Garantizar una destructible para comprobar el daño
-        int Tipo = (i == 2) ? 0 : FMath::RandRange(0, 1);
+        if (FabricaD != nullptr && FabricaI != nullptr)
+        {
+            APawn* Nave = UGameplayStatics::GetPlayerPawn(this, 0);
 
-        AFabricaPlataforma* FabricaActual = (Tipo == 0) ? FabricaD : FabricaI;
+            if (Nave != nullptr)
+            {
+                // Crear ocho plataformas garantizando al menos una roja
+                for (int i = 0; i < 8; i++)
+                {
+                    int Tipo = (i == 2) ? 0 : FMath::RandRange(0, 1);
+                    AFabricaPlataforma* FabricaActual = nullptr;
 
-        FVector Posicion = Nave->GetActorLocation() +FVector(350.0f + (i / 4) * 250.0f,-600.0f + (i % 4) * 300.0f,0.0f);
-        FabricaActual->CrearPlataforma(Posicion);
+                    if (Tipo == 0)
+                    {
+                        FabricaActual = FabricaD;
+                    }
+                    else
+                    {
+                        FabricaActual = FabricaI;
+                    }
+
+                    // Calcular la posicion respecto a la nave
+                    FVector Posicion = Nave->GetActorLocation() + FVector(350.0f + (i / 4) * 250.0f, -600.0f + (i % 4) * 300.0f, 0.0f);
+
+                    // Crear y guardar la plataforma
+                    APlataforma* Plataforma = FabricaActual->CrearPlataforma(Posicion);
+
+                    if (Plataforma != nullptr)
+                    {
+                        ElementosConstruidos.Add(Plataforma);
+                    }
+                }
+            }
+            else
+            {
+                UE_LOG(LogTemp, Error, TEXT("No se encontro la nave"));
+            }
+        }
     }
 }
-
