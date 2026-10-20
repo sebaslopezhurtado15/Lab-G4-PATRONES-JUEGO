@@ -13,7 +13,7 @@
 #include "FabricaIndestructible.h"
 #include "Engine/World.h"
 
-// BUILDER BASICO - Construir los cuatro enemigos animales
+//Construir los cuatro enemigos animales
 void AConstructorEscenarioBasico::ConstruirEnemigos()
 {
     UWorld* Mundo = GetWorld();
@@ -75,16 +75,17 @@ void AConstructorEscenarioBasico::ConstruirEnemigos()
                 ElementosConstruidos.Add(Acuatico);
             }
         }
-    }
+    }    
 }
 
-// BUILDER BASICO - Construir las ocho plataformas
+//Construir las ocho plataformas
 void AConstructorEscenarioBasico::ConstruirPlataformas()
 {
     UWorld* Mundo = GetWorld();
 
     if (Mundo != nullptr)
     {
+        //Creamos las 2 fabricas
         AFabricaPlataforma* FabricaD = Mundo->SpawnActor<AFabricaDestructible>();
         AFabricaPlataforma* FabricaI = Mundo->SpawnActor<AFabricaIndestructible>();
 
@@ -128,3 +129,46 @@ void AConstructorEscenarioBasico::ConstruirPlataformas()
         }
     }
 }
+
+
+
+
+
+
+/*De 5 a 20 de forma aleatria
+    UWorld* Mundo = GetWorld();
+    if (Mundo != nullptr)
+    {
+        AFabricaEnemigosAnimales* Fabrica = Mundo->SpawnActor<AFabricaEnemigosAnimales>();
+        APawn* Nave = UGameplayStatics::GetPlayerPawn(this, 0);
+
+        if (Fabrica != nullptr && Nave != nullptr)
+        {
+            FVector Base = Nave->GetActorLocation();
+            int Cantidad = FMath::RandRange(5, 20);
+
+            for (int i = 0; i < Cantidad; i++)
+            {
+                int Tipo = FMath::RandRange(0, 3);
+                FVector Posicion = Base + FVector(100.0f + (i / 4) * 150.0f, -900.0f + (i % 4) * 600.0f, 0.0f);
+
+                AEnemigo* Enemigo = nullptr;
+
+                switch (Tipo)
+                {
+                case 0: Enemigo = Fabrica->CrearAereo(Posicion); break;
+                case 1: Enemigo = Fabrica->CrearTerrestre(Posicion); break;
+                case 2: Enemigo = Fabrica->CrearSubterraneo(Posicion); break;
+                case 3: Enemigo = Fabrica->CrearAcuatico(Posicion); break;
+                }
+
+                if (Enemigo != nullptr)
+                {
+                    FVector Direccion = Base - Posicion;
+                    Direccion.Z = 0.0f;
+                    Enemigo->SetActorRotation(Direccion.Rotation());
+                    ElementosConstruidos.Add(Enemigo);
+                }
+            }
+        }
+    }*/

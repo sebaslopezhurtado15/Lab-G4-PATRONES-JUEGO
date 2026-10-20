@@ -11,6 +11,6 @@ class AVENTURAUSFX022026L4_API AFabricaIndestructible : public AFabricaPlataform
     GENERATED_BODY()
 
 public:
-    // Sobrescribe el metodo creador de la fabrica padre
+    // Sobrescribe el metodo 
     virtual APlataforma* CrearPlataforma(FVector Posicion) override;
 };
