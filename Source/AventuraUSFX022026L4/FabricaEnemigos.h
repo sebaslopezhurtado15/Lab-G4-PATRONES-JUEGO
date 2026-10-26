@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "FabricaEnemigos.generated.h"
 
-//Declaracion adelantada
+//Declaracion antesedida
 class AEnemigoTerrestre;
 class AEnemigoAereo;
 class AEnemigoAcuatico;
