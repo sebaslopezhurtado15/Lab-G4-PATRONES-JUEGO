@@ -28,5 +28,4 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
             Fachada->IniciarJuego();
         }
     }
-
 }
